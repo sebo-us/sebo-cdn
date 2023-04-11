@@ -16,8 +16,6 @@ sub vcl_recv {
     set req.backend_hint = d.backend("egress-router");
 }
 
-this is really bad
-
 # Method: vcl_recv
 # Description: Happens before we check if we have this in cache already.
 #
