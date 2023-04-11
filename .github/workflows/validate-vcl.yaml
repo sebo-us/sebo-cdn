@@ -17,4 +17,5 @@ jobs:
 
     - name: Validate VCL file
       run: |
-        varnishd -C -f ./k8s/base/varnish/default.vcl
+        ls
+        varnishd -C -f ../k8s/base/varnish/default.vcl
