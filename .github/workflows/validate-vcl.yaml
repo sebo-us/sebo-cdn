@@ -1,0 +1,26 @@
+name: Validate VCL
+
+on:
+  push:
+    paths:
+      - 'k8s/base/varnish/default.vcl'
+  pull_request:
+    paths:
+      - 'k8s/base/varnish/default.vcl'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Setup Varnish
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y varnish
+
+    - name: Validate VCL file
+      run: |
+        varnishd -C -f ./k8s/base/varnish/default.vcl
