@@ -1,12 +1,6 @@
 name: Validate VCL
 
-on:
-  push:
-    paths:
-      - 'k8s/base/varnish/default.vcl'
-  pull_request:
-    paths:
-      - 'k8s/base/varnish/default.vcl'
+on: [push, pull_request]
 
 jobs:
   validate:
