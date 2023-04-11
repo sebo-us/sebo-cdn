@@ -23,7 +23,7 @@ sub vcl_recv {
 # rewriting the request, etc.
 sub vcl_recv {
     if (req.http.X-Forwarded-Proto != "https") {
-        return (synth(301, "https://" + req.http.host + req.url);
+        return (synth(301, "https://" + req.http.host + req.url));
     }
 
     return (pass);
