@@ -22,7 +22,11 @@ sub vcl_recv {
 # Purpose: Typically you clean up the request here, removing cookies you don't need,
 # rewriting the request, etc.
 sub vcl_recv {
-    
+    if (req.http.X-Forwarded-Proto != "https") {
+        return (synth(301, "https://" + req.http.host + req.url);
+    }
+
+    return (pass);
 }
 
 # Method: vcl_backend_response
@@ -32,7 +36,9 @@ sub vcl_recv {
 # and other mistakes your backend may produce. This is also where you can manually
 # set cache TTL periods.
 sub vcl_backend_response {
-
+    set beresp.uncacheable = true;
+    set beresp.ttl = 120s;
+    return (deliver);
 }
 
 
@@ -52,4 +58,11 @@ sub vcl_deliver {
 sub vcl_hash {
     # Purpose: Split cache by HTTP and HTTPS protocol.
     hash_data(req.http.X-Forwarded-Proto);
+}
+
+sub vcl_synth {
+    if (resp.status == 301) {
+        set resp.http.Location = resp.reason;
+        return (deliver);
+    }
 }
