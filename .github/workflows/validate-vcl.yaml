@@ -16,4 +16,4 @@ jobs:
 
     - name: Validate VCL file using custom Varnish Docker image
       run: |
-        docker run --rm -v $PWD:/vcl your-docker-image:your-tag varnishd -C -f /vcl/k8s/base/varnish/default.vcl
+        docker run --rm -v $PWD:/vcl sectionio/varnish-cache-kei:latest varnishd -C -f /vcl/k8s/base/varnish/default.vcl
