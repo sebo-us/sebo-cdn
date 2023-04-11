@@ -14,6 +14,10 @@ sub vcl_init {
 
 sub vcl_recv {
     set req.backend_hint = d.backend("egress-router");
+    
+    if (req.http.host == "red-lake-4040.section.app") {
+        set req.http.host = "staging.sebo.us";
+    }
 }
 
 # Method: vcl_recv
