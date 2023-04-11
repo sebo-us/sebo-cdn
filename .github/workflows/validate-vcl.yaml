@@ -10,12 +10,15 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v2
 
-    - name: Setup Varnish
+    - name: Setup Docker
       run: |
         sudo apt-get update
-        sudo apt-get install -y varnish
+        sudo apt-get install -y docker.io
 
-    - name: Validate VCL file
+    - name: Pull custom Varnish Docker image
       run: |
-        cd k8s/base/varnish
-        varnishd -C -f default.vcl
+        docker pull sectionio/varnish-cache-kei:latest
+
+    - name: Validate VCL file using custom Varnish Docker image
+      run: |
+        docker run --rm -v $PWD:/vcl your-docker-image:your-tag varnishd -C -f /vcl/k8s/base/varnish/default.vcl
